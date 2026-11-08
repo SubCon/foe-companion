@@ -1,0 +1,19 @@
+{
+    "manifest_version": 3,
+    "name": "FoE Hammer Companion",
+    "version": "1.0.0",
+    "description": "Personal add-ons that sit on top of FoE Helper",
+    "content_scripts": [
+        {
+            "matches": ["https://*.forgeofempires.com/*"],
+            "include_globs": ["*forgeofempires.com/game*"],
+            "js": [
+                "modules/text-select.js",
+                "modules/all-buildings.js",
+                "companion.js"
+            ],
+            "world": "MAIN",
+            "run_at": "document_start"
+        }
+    ]
+}
