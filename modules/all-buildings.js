@@ -18,15 +18,24 @@ window.FHC.AllBuildings = {
 		};
 
 		Productions.buildAllTable = function () {
+			// FoE Hammer exposes FH.*; FoE Helper uses standalone globals.
+			const _fh       = typeof FH !== 'undefined';
+			const _playerID = _fh ? FH.Player.ID            : ExtPlayerID;
+			const _extUrl   = _fh ? FH.extUrl               : extUrl;
+			const _getItem  = _fh ? (k) => FH.Storage.getItem(k)       : (k) => localStorage.getItem(k);
+			const _t        = _fh ? (k) => FH.t(k)                     : (k) => i18n(k);
+			const _cleanup  = _fh ? (s) => FH.helper.str.cleanup(s)    : (s) => helper.str.cleanup(s);
+			const _allies   = _fh ? FH.Main.Allies.buildingList : (typeof Allies !== 'undefined' ? Allies.buildingList : null);
+
 			let table = [],
 				rowA = [],
 				inADay = Math.floor(Date.now() / 1000) + 86400,
-				showRelativeTime = JSON.parse(FH.Storage.getItem('productionsShowRelativeTime') || 'false'),
-				showAMPMTime    = JSON.parse(FH.Storage.getItem('productionsShowAMPMTime') || 'false');
+				showRelativeTime = JSON.parse(_getItem('productionsShowRelativeTime') || 'false'),
+				showAMPMTime    = JSON.parse(_getItem('productionsShowAMPMTime') || 'false');
 
 			// BuildingsAll is populated by PrepareData() before any tab renders
 			for (const building of Productions.BuildingsAll) {
-				if (building?.player_id !== FH.Player.ID || !building.state.connected) continue;
+				if (building?.player_id !== _playerID || !building.state.connected) continue;
 
 				rowA.push('<tr>');
 
@@ -42,20 +51,20 @@ window.FHC.AllBuildings = {
 
 				// Building name with tooltip
 				rowA.push(
-					'<td data-text="' + FH.helper.str.cleanup(building.name) + '" exportvalue="' + building.name + '">' +
+					'<td data-text="' + _cleanup(building.name) + '" exportvalue="' + building.name + '">' +
 					'<span data-meta_id="' + building.entityId + '"' +
 					' data-eff="' + (building.rating?.totalScore * 100) + '"' +
 					' data-era="' + (building.eraName === 'AllAge' ? '' : building.eraName) + '"' +
 					' data-callback_tt="building"' +
-					' class="helperTT' + (FH.Main.Allies.buildingList?.[building.id] ? ' ally' : '') + '">' +
+					' class="helperTT' + (_allies?.[building.id] ? ' ally' : '') + '">' +
 					building.name + '</span></td>'
 				);
 
 				// Era
 				let eraIdx = Technologies.Eras[building.eraName];
 				rowA.push(
-					'<td data-number="' + eraIdx + '" exportvalue="' + FH.t('Eras.' + eraIdx + '.short') + '">' +
-					FH.t('Eras.' + eraIdx + '.short') + '</td>'
+					'<td data-number="' + eraIdx + '" exportvalue="' + _t('Eras.' + eraIdx + '.short') + '">' +
+					_t('Eras.' + eraIdx + '.short') + '</td>'
 				);
 
 				// Collection time
@@ -69,7 +78,7 @@ window.FHC.AllBuildings = {
 					else
 						time = moment.unix(at).format(at <= inADay ? 'HH:mm:ss' : 'dddd, HH:mm');
 				}
-				let done = building.state.name === 'collectable' ? FH.t('Boxes.Productions.Done') : '';
+				let done = building.state.name === 'collectable' ? _t('Boxes.Productions.Done') : '';
 				rowA.push(
 					'<td style="white-space:nowrap" data-date="' + (at || 9999999999) + '">' +
 					(done === '' ? time : '<b class="text-success">' + done + '</b>') +
@@ -80,7 +89,7 @@ window.FHC.AllBuildings = {
 				rowA.push(
 					'<td class="text-right">' +
 					'<span class="show-entity" data-id="' + building.id + '">' +
-					'<img class="game-cursor" src="' + FH.extUrl + 'images/hud/open-eye.png"></span></td>'
+					'<img class="game-cursor" src="' + _extUrl + 'images/hud/open-eye.png"></span></td>'
 				);
 
 				rowA.push('</tr>');
@@ -90,14 +99,14 @@ window.FHC.AllBuildings = {
 				table.push('<table id="all-list" class="foe-table sortable-table TSinactive all-list active exportable">');
 				table.push('<thead class="sticky">');
 				table.push('<tr>');
-				table.push('<th colspan="2"><input type="text" placeholder="' + FH.t('Boxes.Productions.FilterTable') + '" class="filterCurrentList"></th>');
+				table.push('<th colspan="2"><input type="text" placeholder="' + _t('Boxes.Productions.FilterTable') + '" class="filterCurrentList"></th>');
 				table.push('<th colspan="3"></th>');
 				table.push('</tr>');
 				table.push('<tr class="sorter-header exportheader">');
 				table.push('<th class="no-sort tdmin" data-type="prodlistall"> </th>');
-				table.push('<th class="ascending" data-type="prodlistall" data-export="' + FH.t('Boxes.BlueGalaxy.Building') + '">' + FH.t('Boxes.BlueGalaxy.Building') + '</th>');
-				table.push('<th class="is-number" data-type="prodlistall" data-export="' + FH.t('Boxes.Productions.Headings.era') + '">' + FH.t('Boxes.Productions.Headings.era') + '</th>');
-				table.push('<th class="is-date" data-type="prodlistall">' + FH.t('General.Collection') + '</th>');
+				table.push('<th class="ascending" data-type="prodlistall" data-export="' + _t('Boxes.BlueGalaxy.Building') + '">' + _t('Boxes.BlueGalaxy.Building') + '</th>');
+				table.push('<th class="is-number" data-type="prodlistall" data-export="' + _t('Boxes.Productions.Headings.era') + '">' + _t('Boxes.Productions.Headings.era') + '</th>');
+				table.push('<th class="is-date" data-type="prodlistall">' + _t('General.Collection') + '</th>');
 				table.push('<th class="no-sort" data-type="prodlistall"> </th>');
 				table.push('</tr>');
 				table.push('</thead>');
@@ -106,7 +115,7 @@ window.FHC.AllBuildings = {
 				table.push('</tbody>');
 				table.push('</table>');
 			} else {
-				table.push('<div class="empty-list">' + FH.t('Boxes.Productions.EmptyList') + '</div>');
+				table.push('<div class="empty-list">' + _t('Boxes.Productions.EmptyList') + '</div>');
 			}
 
 			return table.join('');
