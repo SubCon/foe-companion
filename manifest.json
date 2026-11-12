@@ -3,7 +3,18 @@
     "name": "FoE Companion",
     "version": "1.0.0",
     "description": "Personal add-ons that work alongside FoE Hammer and FoE Helper",
+    "options_ui": {
+        "page": "options.html",
+        "open_in_tab": true
+    },
+    "permissions": ["storage"],
     "content_scripts": [
+        {
+            "matches": ["https://*.forgeofempires.com/*"],
+            "include_globs": ["*forgeofempires.com/game*"],
+            "js": ["settings-bridge.js"],
+            "run_at": "document_start"
+        },
         {
             "matches": ["https://*.forgeofempires.com/*"],
             "include_globs": ["*forgeofempires.com/game*"],
