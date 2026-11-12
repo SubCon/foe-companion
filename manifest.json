@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "FoE Hammer Companion",
+    "name": "FoE Companion",
     "version": "1.0.0",
-    "description": "Personal add-ons that sit on top of FoE Helper",
+    "description": "Personal add-ons that work alongside FoE Hammer and FoE Helper",
     "content_scripts": [
         {
             "matches": ["https://*.forgeofempires.com/*"],

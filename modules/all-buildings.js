@@ -22,6 +22,7 @@ window.FHC.AllBuildings = {
 			const _fh       = typeof FH !== 'undefined';
 			const _playerID = _fh ? FH.Player.ID            : ExtPlayerID;
 			const _extUrl   = _fh ? FH.extUrl               : extUrl;
+			const _eyeUrl   = _fh ? (_extUrl + 'images/hud/open-eye.png') : (_extUrl + 'css/images/hud/open-eye.png');
 			const _getItem  = _fh ? (k) => FH.Storage.getItem(k)       : (k) => localStorage.getItem(k);
 			const _t        = _fh ? (k) => FH.t(k)                     : (k) => i18n(k);
 			const _cleanup  = _fh ? (s) => FH.helper.str.cleanup(s)    : (s) => helper.str.cleanup(s);
@@ -89,7 +90,7 @@ window.FHC.AllBuildings = {
 				rowA.push(
 					'<td class="text-right">' +
 					'<span class="show-entity" data-id="' + building.id + '">' +
-					'<img class="game-cursor" src="' + _extUrl + 'images/hud/open-eye.png"></span></td>'
+					'<img class="game-cursor" src="' + _eyeUrl + '"></span></td>'
 				);
 
 				rowA.push('</tr>');
