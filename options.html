@@ -123,6 +123,23 @@
         #saved-msg.visible {
             opacity: 1;
         }
+
+        #dev-section {
+            display: none;
+            margin-top: 32px;
+        }
+
+        #dev-section .section-title {
+            color: #e8a020;
+        }
+
+        #dev-section .feature-list {
+            border-color: #e8a020;
+        }
+
+        #dev-section .feature {
+            border-bottom-color: #2a1a00;
+        }
     </style>
 </head>
 <body>
@@ -132,6 +149,11 @@
     <div class="feature-list" id="feature-list"></div>
 
     <span id="saved-msg">Saved</span>
+
+    <div id="dev-section">
+        <div class="section-title">Developer</div>
+        <div class="feature-list" id="dev-feature-list"></div>
+    </div>
 
     <script src="options.js"></script>
 </body>

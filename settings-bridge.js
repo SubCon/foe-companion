@@ -8,7 +8,8 @@ const DEFAULTS = {
     'all-buildings':   true,
     'ge-marker':           true,
     'ge-marker-threshold': 1,
-    'ge-marker-mode':      'threshold'
+    'ge-marker-mode':      'threshold',
+    'dev-mode':            false
 };
 
 // expose extension base URL to MAIN world so modules can build asset URLs

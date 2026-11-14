@@ -24,7 +24,7 @@
 
 		const _isHelper = typeof FH === 'undefined';
 		if (settings['ge-marker'] && _isHelper) {
-			window.FHC.GEMarker.patch(settings['ge-marker-threshold'] || 1, settings['ge-marker-mode'] || 'threshold');
+			window.FHC.GEMarker.patch(settings['ge-marker-threshold'] || 1, settings['ge-marker-mode'] || 'threshold', !!settings['dev-mode']);
 		}
 	}
 	window.addEventListener('forgehammer#loaded', _init, { once: true });

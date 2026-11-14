@@ -115,4 +115,70 @@ function buildUI(settings) {
     });
 }
 
-chrome.storage.local.get(DEFAULTS, buildUI);
+chrome.storage.local.get({ ...DEFAULTS, 'dev-mode': false }, buildUI);
+
+// --- Developer section ---
+
+const DEV_FEATURES = [
+    {
+        id:    'dev-mode',
+        label: 'Show test controls in game',
+        desc:  'Adds test buttons to the game page for any module that has them.'
+    }
+];
+
+function buildDevUI(settings) {
+    const list = document.getElementById('dev-feature-list');
+    list.innerHTML = '';
+
+    DEV_FEATURES.forEach(feature => {
+        const row = document.createElement('div');
+        row.className = 'feature';
+
+        const info = document.createElement('div');
+        info.className = 'feature-info';
+        info.innerHTML =
+            '<div class="feature-label">' + feature.label + '</div>' +
+            '<div class="feature-desc">'  + feature.desc  + '</div>';
+
+        const label = document.createElement('label');
+        label.className = 'toggle';
+
+        const input = document.createElement('input');
+        input.type    = 'checkbox';
+        input.checked = !!settings[feature.id];
+        input.addEventListener('change', () => {
+            chrome.storage.local.set({ [feature.id]: input.checked }, showSaved);
+        });
+
+        const track = document.createElement('div');
+        track.className = 'toggle-track';
+
+        label.appendChild(input);
+        label.appendChild(track);
+        row.appendChild(info);
+        row.appendChild(label);
+        list.appendChild(row);
+    });
+}
+
+// 3-click trigger on the h1 to reveal/hide the developer section
+let _devClicks = 0;
+let _devTimer  = null;
+
+document.querySelector('h1').addEventListener('click', () => {
+    _devClicks++;
+    clearTimeout(_devTimer);
+
+    if (_devClicks >= 3) {
+        _devClicks = 0;
+        const section = document.getElementById('dev-section');
+        const visible = section.style.display !== 'none' && section.style.display !== '';
+        section.style.display = visible ? 'none' : 'block';
+        if (!visible) {
+            chrome.storage.local.get({ 'dev-mode': false }, buildDevUI);
+        }
+    } else {
+        _devTimer = setTimeout(() => { _devClicks = 0; }, 800);
+    }
+});

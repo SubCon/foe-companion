@@ -19,7 +19,7 @@ window.FHC.GEMarker = {
 	_dismissTimer: null,
 	_iconUrl:      '',
 
-	patch(threshold, mode) {
+	patch(threshold, mode, devMode) {
 		this.threshold = (typeof threshold === 'number' && threshold >= 1) ? threshold : 1;
 		this._mode     = (mode === 'in-progress') ? 'in-progress' : 'threshold';
 		this._iconUrl  = (document.documentElement.dataset.fhcExtUrl || '') + 'icons/exclamation-warning-red.svg';
@@ -64,7 +64,7 @@ window.FHC.GEMarker = {
 		});
 
 		this._update();
-		this._addTestButton();
+		if (devMode) this._addTestButton();
 	},
 
 	_findGEEntity() {
