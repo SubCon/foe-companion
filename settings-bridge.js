@@ -4,9 +4,15 @@
 // this async read completes, so no race condition.
 
 const DEFAULTS = {
-    'text-select':  true,
-    'all-buildings': true
+    'text-select':     true,
+    'all-buildings':   true,
+    'ge-marker':           true,
+    'ge-marker-threshold': 1,
+    'ge-marker-mode':      'threshold'
 };
+
+// expose extension base URL to MAIN world so modules can build asset URLs
+document.documentElement.dataset.fhcExtUrl = chrome.runtime.getURL('');
 
 chrome.storage.local.get(DEFAULTS, (settings) => {
     document.documentElement.dataset.fhcSettings = JSON.stringify(settings);

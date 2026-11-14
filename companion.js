@@ -21,6 +21,11 @@
 
 		if (settings['text-select'])   window.FHC.TextSelect.patch();
 		if (settings['all-buildings']) window.FHC.AllBuildings.patch();
+
+		const _isHelper = typeof FH === 'undefined';
+		if (settings['ge-marker'] && _isHelper) {
+			window.FHC.GEMarker.patch(settings['ge-marker-threshold'] || 1, settings['ge-marker-mode'] || 'threshold');
+		}
 	}
 	window.addEventListener('forgehammer#loaded', _init, { once: true });
 	window.addEventListener('foe-helper#loaded',  _init, { once: true });

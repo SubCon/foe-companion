@@ -27,6 +27,23 @@ In short: one tab, everything visible, no switching around.
 
 ---
 
+### 3. Guild Expedition attempts alert *(FoE Helper only for now)*
+
+When you have Guild Expedition attempts available, the companion makes sure you don't miss them.
+
+**HUD button highlight** — the GE Results button in the Helper panel gets an amber glow and outline when the alert condition is met. It's visually distinct from Helper's own red "data missing" state so it doesn't cause confusion.
+
+**Map marker** — a warning icon appears above the GE ship on the city map, bobbing in the same style as Helper's own building markers. Click the icon to dismiss it.
+
+Two trigger modes, selectable in the companion options:
+
+- **Attempts ≥ threshold** — fires when GE is running and your available attempt count is at or above a number you set (1–8). Good if you want a nudge only when you have several tries stocked up.
+- **GE in progress (hourly reminder)** — fires whenever GE is active and not yet complete, regardless of attempt count. After you dismiss the icon it re-appears automatically after one hour, so it keeps reminding you throughout the GE week.
+
+The marker tracks the GE ship as you pan and zoom the map, and disappears on its own when GE ends or completes.
+
+---
+
 ## Installation
 
 1. Download or clone this repository.

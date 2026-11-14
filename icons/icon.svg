@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+
+  <!-- Background: dark navy, rounded square -->
+  <rect width="128" height="128" rx="22" ry="22" fill="#12122a"/>
+
+  <!-- Outer amber border -->
+  <rect x="3.5" y="3.5" width="121" height="121" rx="19" ry="19"
+        fill="none" stroke="#e8a020" stroke-width="3"/>
+
+  <!-- Shield outline — medieval reference -->
+  <path d="M64 20 L100 33 L100 68 Q100 95 64 109 Q28 95 28 68 L28 33 Z"
+        fill="#1a1a2e" stroke="#e8a020" stroke-width="3.5" stroke-linejoin="round"/>
+
+  <!-- Letter C — serif, bold, centered in shield -->
+  <text x="64" y="84"
+        text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="52"
+        font-weight="bold"
+        fill="#e8a020">C</text>
+
+</svg>

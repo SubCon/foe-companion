@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Generate FoE Companion Icons</title>
+<style>
+  body { font-family: sans-serif; background: #1a1a2e; color: #e0e0e0; padding: 32px; }
+  button { background: #e8a020; color: #1a1a2e; border: none; padding: 10px 20px; font-size: 14px; border-radius: 6px; cursor: pointer; margin-top: 16px; }
+  p { color: #888; font-size: 13px; margin-top: 12px; }
+</style>
+</head>
+<body>
+<h2 style="color:#e8a020">FoE Companion — Icon Generator</h2>
+<p>Click the button to download <strong>icon-16.png</strong>, <strong>icon-48.png</strong>, and <strong>icon-128.png</strong>.<br>
+   Save them into the <code>icons/</code> folder next to this file, then reload the extension.</p>
+<button onclick="generate()">Download PNG icons</button>
+<p id="status"></p>
+
+<script>
+const SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <rect width="128" height="128" rx="22" ry="22" fill="#12122a"/>
+  <rect x="3.5" y="3.5" width="121" height="121" rx="19" ry="19"
+        fill="none" stroke="#e8a020" stroke-width="3"/>
+  <path d="M64 20 L100 33 L100 68 Q100 95 64 109 Q28 95 28 68 L28 33 Z"
+        fill="#1a1a2e" stroke="#e8a020" stroke-width="3.5" stroke-linejoin="round"/>
+  <text x="64" y="84" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="52" font-weight="bold" fill="#e8a020">C</text>
+</svg>`;
+
+function generate() {
+  const sizes = [16, 48, 128];
+  const blob = new Blob([SVG], { type: 'image/svg+xml;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  let done = 0;
+
+  sizes.forEach(size => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      canvas.getContext('2d').drawImage(img, 0, 0, size, size);
+      canvas.toBlob(pngBlob => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(pngBlob);
+        a.download = `icon-${size}.png`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        done++;
+        if (done === sizes.length) {
+          URL.revokeObjectURL(url);
+          document.getElementById('status').textContent = '✓ Done — move the 3 files into the icons/ folder.';
+        }
+      }, 'image/png');
+    };
+    img.src = url;
+  });
+}
+</script>
+</body>
+</html>
