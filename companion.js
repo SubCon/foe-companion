@@ -21,6 +21,7 @@
 
 		if (settings['text-select'])   window.FHC.TextSelect.patch();
 		if (settings['all-buildings']) window.FHC.AllBuildings.patch();
+		if (settings['gb-calc'])       window.FHC.GBCalc.patch();
 
 		const _isHelper = typeof FH === 'undefined';
 		if (settings['ge-marker'] && _isHelper) {

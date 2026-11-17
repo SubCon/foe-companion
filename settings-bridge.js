@@ -9,6 +9,7 @@ const DEFAULTS = {
     'ge-marker':           true,
     'ge-marker-threshold': 1,
     'ge-marker-mode':      'threshold',
+    'gb-calc':             true,
     'dev-mode':            false
 };
 

@@ -18,6 +18,7 @@ window.FHC.GEMarker = {
 	_dismissed:    false,
 	_dismissTimer: null,
 	_iconUrl:      '',
+	_badgeEl:      null,
 
 	patch(threshold, mode, devMode) {
 		this.threshold = (typeof threshold === 'number' && threshold >= 1) ? threshold : 1;
@@ -32,7 +33,7 @@ window.FHC.GEMarker = {
 				background: radial-gradient(ellipse at center, rgba(232,160,32,0.28) 0%, transparent 72%) !important;
 			}
 			/* custom GE marker icon — 20% larger than base 48px */
-			.fhc-ge-icon {
+			.fhc-ge-icon-wrap {
 				position: absolute;
 				width: 73px;
 				height: 73px;
@@ -40,10 +41,36 @@ window.FHC.GEMarker = {
 				top: -220px;
 				pointer-events: auto;
 				cursor: pointer;
-				filter: drop-shadow(0 4px 6px rgba(0,0,0,0.55));
 				animation: building-marker-bob 1.6s ease-in-out infinite;
 			}
-			.fhc-ge-icon:hover { filter: drop-shadow(0 4px 6px rgba(0,0,0,0.55)) brightness(1.2); }
+			.fhc-ge-icon {
+				width: 100%;
+				height: 100%;
+				display: block;
+				filter: drop-shadow(0 4px 6px rgba(0,0,0,0.55));
+			}
+			.fhc-ge-icon-wrap:hover .fhc-ge-icon { filter: drop-shadow(0 4px 6px rgba(0,0,0,0.55)) brightness(1.2); }
+			.fhc-ge-badge {
+				position: absolute;
+				bottom: -8px;  /* vertical placement — increase to move up */
+				left: -16px;    /* horizontal placement — increase to move right */
+				min-width: 36px;  /* size */
+				height: 36px;     /* size */
+				/*background: #c0392b;*/
+				background: #2da7cb;
+				color: #fff;
+				font-size: 22px;
+				font-weight: bold;
+				font-family: sans-serif;
+				border-radius: 18px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				padding: 0 6px;
+				pointer-events: none;
+				border: 3px solid rgba(255,255,255,0.9);
+				box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+			}
 		`;
 		document.head.appendChild(style);
 
@@ -97,26 +124,41 @@ window.FHC.GEMarker = {
 					const svg = arrowEl.querySelector('svg');
 					if (svg) svg.style.display = 'none';
 
-					const img = document.createElement('img');
-					img.src       = BM._iconUrl;
-					img.className = 'fhc-ge-icon';
-					img.title     = 'Guild Expedition — click to dismiss' +
-					                (BM._mode === 'in-progress' ? ' (re-appears in 1 hour)' : '');
-					img.addEventListener('click', e => {
+					const wrap = document.createElement('div');
+					wrap.className = 'fhc-ge-icon-wrap';
+					wrap.title     = 'Guild Expedition — click to dismiss' +
+					                 (BM._mode === 'in-progress' ? ' (re-appears in 1 hour)' : '');
+					wrap.addEventListener('click', e => {
 						e.stopPropagation();
 						BM._dismissed   = true;
 						BM._alertActive = false;
 						if (typeof BuildingMarker !== 'undefined') BuildingMarker.hide();
 						if (BM._mode === 'in-progress') BM._startDismissTimer();
 					});
-					arrowEl.appendChild(img);
+
+					const img = document.createElement('img');
+					img.src       = BM._iconUrl;
+					img.className = 'fhc-ge-icon';
+
+					const badge = document.createElement('span');
+					badge.className   = 'fhc-ge-badge';
+					badge.textContent = GExAttempts.count;
+					BM._badgeEl = badge;
+
+					wrap.appendChild(img);
+					wrap.appendChild(badge);
+					arrowEl.appendChild(wrap);
 				});
 			}
 		} else if (!shouldAlert && BM._alertActive) {
 			BM._alertActive = false;
+			BM._badgeEl     = null;
 			BM._clearDismissTimer();
 			if (typeof BuildingMarker !== 'undefined') BuildingMarker.hide();
 		}
+
+		// keep badge count current on every refresh (count can change while marker is visible)
+		if (BM._badgeEl) BM._badgeEl.textContent = GExAttempts.count;
 
 		// reset dismissed state whenever the alert condition is not met,
 		// so the icon fires again on the next GE session / next time threshold is crossed

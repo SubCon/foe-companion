@@ -33,7 +33,7 @@ When you have Guild Expedition attempts available, the companion makes sure you 
 
 **HUD button highlight** — the GE Results button in the Helper panel gets an amber glow and outline when the alert condition is met. It's visually distinct from Helper's own red "data missing" state so it doesn't cause confusion.
 
-**Map marker** — a warning icon appears above the GE ship on the city map, bobbing in the same style as Helper's own building markers. Click the icon to dismiss it.
+**Map marker** — a warning icon appears above the GE ship on the city map, bobbing in the same style as Helper's own building markers. A round badge in the bottom-left corner of the icon shows your current available attempt count at a glance. Click the icon to dismiss it.
 
 Two trigger modes, selectable in the companion options:
 
@@ -41,6 +41,16 @@ Two trigger modes, selectable in the companion options:
 - **GE in progress (hourly reminder)** — fires whenever GE is active and not yet complete, regardless of attempt count. After you dismiss the icon it re-appears automatically after one hour, so it keeps reminding you throughout the GE week.
 
 The marker tracks the GE ship as you pan and zoom the map, and disappears on its own when GE ends or completes.
+
+---
+
+### 4. GB Calculator tweaks *(Hammer and Helper)*
+
+Small improvements to the GB Calculator when viewing someone else's Great Building.
+
+**Wider hover target on empty rows** — the +/- profit column shows a dash when a spot is open and no calculation is needed. That dash is only a few pixels wide, making it awkward to hover for the tooltip. The companion widens the hit area and changes the cursor to a crosshair so you can aim at it reliably.
+
+**"Place locked at" click-to-fill** — the profit tooltip shows a "place locked at" amount: the minimum FP you need to contribute to guarantee nobody can outbid you. The companion adds a small 🔒 line directly below the profit value showing that amount. Click it and it fills straight into the in-game FP input box, the same way clicking the FP cost in column 2 does.
 
 ---
 

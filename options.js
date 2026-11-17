@@ -10,6 +10,11 @@ const FEATURES = [
         desc:  'Adds a first tab to the Productions panel showing every city building in one list.'
     },
     {
+        id:    'gb-calc',
+        label: 'GB Calculator tweaks',
+        desc:  'Widens the narrow dash cells in the +/- column for easier hovering, and adds a clickable "place locked at" amount below the profit value.'
+    },
+    {
         id:    'ge-marker',
         label: 'GE Attempts Alert (Helper only)',
         desc:  'Highlights the GE Results button with an amber glow when available attempts reach the threshold.'
